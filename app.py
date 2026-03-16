@@ -6,11 +6,17 @@ import os
 
 model_path = "rf_model_streamlit.pkl"
 
-if not os.path.exists(model_path):
-    url = "https://drive.google.com/uc?id=1fgB9jvHUBFDan_IRhm6mKzQu38VIJlxy"
-    gdown.download(url, model_path, quiet=False)
+@st.cache_resource
+def load_model():
 
-model = joblib.load(model_path)
+    if not os.path.exists(model_path):
+        url = "https://drive.google.com/uc?id=1GT3EX9hdRExacBk4Up--Eg128OYEGxgB"
+        gdown.download(url, model_path, quiet=False)
+
+    model = joblib.load(model_path)
+    return model
+
+model = load_model()
 
 # Load hotel list
 hotel_list = joblib.load("hotel_list.pkl")
